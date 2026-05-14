@@ -1,0 +1,205 @@
+:root {
+  --primary: #047857;     /* Deep academic emerald green */
+  --secondary: #6b7280;
+  --bg-app: #f4f6f5;
+  --surface: #ffffff;
+  --text: #111827;
+  --border: #e5e7eb;
+  
+  /* Classic contrasting states */
+  --present-bg: #f0fdf4;
+  --present-border: #bbf7d0;
+  --present-text: #16a34a;
+  --absent-bg: #fff1f2;
+  --absent-border: #ffe4e6;
+  --absent-text: #e11d48;
+}
+
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-app);
+  color: var(--text);
+  -webkit-tap-highlight-color: transparent;
+}
+
+.app-container {
+  max-width: 800px;
+  margin: 20px auto;
+  padding: 24px;
+  background: var(--surface);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  border-radius: 12px;
+}
+
+header {
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 16px;
+  margin-bottom: 24px;
+}
+
+header h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* Navigation & Tabs */
+.nav-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+@media(min-width: 600px) {
+  .nav-bar { flex-direction: row; justify-content: space-between; align-items: center; }
+}
+
+.tab-container {
+  display: flex;
+  background: #f1f5f9;
+  padding: 4px;
+  border-radius: 8px;
+}
+
+.tab-btn {
+  padding: 8px 16px;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  font-weight: 500;
+  color: var(--secondary);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.tab-btn.active {
+  background: var(--surface);
+  color: var(--primary);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+}
+
+/* Grid Views for Semesters/Subjects */
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.card {
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  background: var(--surface);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.card h3 { margin: 0 0 8px 0; font-size: 1.2rem; }
+.card p { margin: 0 0 16px 0; color: var(--secondary); font-size: 0.9rem; }
+
+/* The Unified Scrollable Attendance List */
+.attendance-list-container {
+  max-height: 65vh;
+  overflow-y: auto;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--surface);
+}
+
+.attendance-row {
+  display: flex;
+  align-items: center;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border);
+  transition: background-color 0.15s;
+  cursor: pointer;
+  position: relative;
+}
+
+.attendance-row:last-child { border-bottom: none; }
+
+/* Clean, Minimal State Coloration */
+.attendance-row.present { background-color: var(--present-bg); }
+.attendance-row.present:hover { background-color: #f4fbf7; }
+.attendance-row.absent { background-color: var(--absent-bg); }
+.attendance-row.absent:hover { background-color: #fff5f5; }
+
+/* Big Short Roll Number */
+.short-id-trigger {
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  font-variant-numeric: tabular-nums;
+  padding-right: 24px;
+  user-select: none;
+}
+
+.attendance-row.present .short-id-trigger { color: var(--present-text); }
+.attendance-row.absent .short-id-trigger { color: var(--absent-text); }
+
+/* The "Peek" Details Modal/Tooltip tooltip */
+.student-peek-panel {
+  position: absolute;
+  left: 90px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #0f172a;
+  color: #ffffff;
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  z-index: 10;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+  pointer-events: none;
+  display: none;
+  animation: fadeIn 0.15s ease;
+}
+
+.student-peek-panel::before {
+  content: '';
+  position: absolute;
+  left: -6px;
+  top: 50%;
+  transform: translateY(-50%);
+  border-width: 6px 6px 6px 0;
+  border-style: solid;
+  border-color: transparent #0f172a transparent transparent;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-50%) scale(0.95); }
+  to { opacity: 1; transform: translateY(-50%) scale(1); }
+}
+
+/* Global Button Styling */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  font-size: 0.95rem;
+  font-weight: 500;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-primary { background: var(--primary); color: white; }
+.btn-primary:hover { background: #1d4ed8; }
+.btn-secondary { background: #f1f5f9; color: #334155; border-color: var(--border); }
+.btn-secondary:hover { background: #e2e8f0; }
+.btn-action { padding: 6px 12px; font-size: 0.85rem; }
+.btn-export { background: #059669; color: white; }
+.btn-export:hover { background: #047857; }
+
+.action-bar { display: flex; gap: 12px; margin-top: 16px; flex-wrap: wrap; }
+.roster-list { max-height: 50vh; overflow-y: auto; border: 1px solid var(--border); border-radius: 8px; }
+.roster-row { display: grid; grid-template-columns: 80px 140px 1fr; padding: 12px 16px; border-bottom: 1px solid var(--border); }
+.roster-row:last-child { border-bottom: none; }
