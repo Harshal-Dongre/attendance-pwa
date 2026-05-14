@@ -3,6 +3,71 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Attendance App</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="app-container">
+    <header>
+      <h2 id="appTitle">Semesters</h2>
+    </header>
+
+    <div id="semesterView" class="view">
+      <div id="semesterList" class="grid-container"></div>
+      <button class="btn btn-primary" onclick="actions.addSemester()">+ Add Semester</button>
+    </div>
+
+    <div id="detailView" class="view" style="display:none;">
+      <div class="nav-bar">
+        <button class="btn btn-secondary" onclick="ui.showSemesterView()">← Back to Semesters</button>
+        <div class="tab-container" id="subjectTabs" style="display: none;">
+          <button class="tab-btn active" id="tabLectures" onclick="ui.switchSubView('lectures')">Lectures</button>
+          <button class="tab-btn" id="tabStudents" onclick="ui.switchSubView('students')">Registered Students</button>
+        </div>
+      </div>
+
+      <div id="subjectListView" class="sub-view">
+        <div id="subjectList" class="grid-container"></div>
+        <button class="btn btn-primary" onclick="actions.addSubject()">+ Add Subject</button>
+      </div>
+
+      <div id="lectureListView" class="sub-view" style="display:none;">
+        <div id="lectureList"></div>
+        <div class="action-bar">
+          <button class="btn btn-primary" onclick="actions.addLecture()">+ Take Attendance (New Lecture)</button>
+          <button class="btn btn-export" id="exportSubjectBtn">Export Subject CSV</button>
+        </div>
+      </div>
+
+      <div id="attendanceView" class="sub-view" style="display:none;">
+        <div class="attendance-list-container">
+          <div id="attendanceList"></div>
+        </div>
+        <div class="action-bar">
+          <button class="btn btn-export" id="exportLectureBtn">Export Lecture CSV</button>
+        </div>
+      </div>
+
+      <div id="studentRosterView" class="sub-view" style="display:none;">
+        <div class="action-bar">
+          <button class="btn btn-secondary" onclick="actions.uploadStudentCSV()">Upload Roster CSV</button>
+          <button class="btn btn-secondary" onclick="actions.addStudentManual()">Add Student Manually</button>
+        </div>
+        <div id="studentRosterList" class="roster-list"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/db.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Attendance</title>
 
   <link rel="manifest" href="manifest.json">
