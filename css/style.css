@@ -42,24 +42,36 @@ header {
 }
 
 header h2 {
-  font-size: 1.4rem;
+  font-size: 1.25rem;
   font-weight: 800;
   margin: 0;
   color: var(--text);
+}
+
+/* --- Sort Control Configurations --- */
+.sort-toggle-btn {
+  background: #f1f5f9;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: var(--secondary);
+  cursor: pointer;
 }
 
 /* --- Navigation Button Containers --- */
 .nav-bar {
   display: flex;
   gap: 12px;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
   width: 100%;
 }
 
 .nav-bar .btn {
   flex: 1;
-  min-height: 50px;
-  font-size: 0.95rem;
+  min-height: 48px;
+  font-size: 0.9rem;
   font-weight: 600;
   display: flex;
   align-items: center;
@@ -79,20 +91,51 @@ header h2 {
 .grid-container {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  margin-bottom: 24px;
+  gap: 14px;
+  margin-bottom: 20px;
 }
 
 .card {
   border: 1px solid var(--border);
   border-radius: 12px;
-  padding: 20px;
+  padding: 16px;
   background: var(--surface);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.01);
+  position: relative;
 }
 
-.card h3 { margin: 0 0 6px 0; font-size: 1.2rem; font-weight: 700; }
-.card p { margin: 0 0 16px 0; color: var(--secondary); font-size: 0.9rem; }
+.card-header-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 4px;
+}
+
+.card h3 { margin: 0; font-size: 1.15rem; font-weight: 700; }
+.card p { margin: 0 0 14px 0; color: var(--secondary); font-size: 0.85rem; }
+
+/* --- Analytics Visualization Box --- */
+.analytics-box {
+  background: #f8fafc;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px;
+  margin-bottom: 20px;
+}
+.analytics-box h4 { margin: 0 0 8px 0; font-size: 0.85rem; color: var(--secondary); text-transform: uppercase; letter-spacing: 0.5px;}
+.analytics-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.analytic-metric {
+  background: var(--surface);
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+}
+.analytic-metric div:first-child { font-size: 0.75rem; color: var(--secondary); font-weight: 600;}
+.analytic-metric div:last-child { font-size: 1.1rem; font-weight: 800; color: var(--primary); margin-top: 2px;}
 
 /* --- Tab Control Layout --- */
 .tab-container {
@@ -100,48 +143,62 @@ header h2 {
   background: #f1f5f9;
   padding: 4px;
   border-radius: 10px;
-  margin-bottom: 24px;
+  margin-bottom: 20px;
 }
 
 .tab-btn {
   flex: 1;
-  padding: 12px;
+  padding: 10px;
   background: transparent;
   border: none;
   border-radius: 8px;
   font-weight: 700;
   color: var(--secondary);
   cursor: pointer;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 .tab-btn.active {
   background: var(--surface);
   color: var(--primary);
-  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.03);
 }
 
 /* --- Lecture Row Entries --- */
 .list-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  margin-bottom: 24px;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
 .lecture-item {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 18px;
+  padding: 14px 16px;
   border: 1px solid var(--border);
   border-radius: 10px;
   background: var(--surface);
 }
 
+/* --- Bulk Configuration Strip Layout --- */
+.bulk-state-strip {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f1f5f9;
+  padding: 10px 14px;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--secondary);
+}
+
 /* --- Attendance Grid Row Layout --- */
 .attendance-list-container {
-  max-height: 55vh;
+  max-height: 50vh;
   overflow-y: auto;
   border: 1px solid var(--border);
   border-radius: 12px;
@@ -151,11 +208,10 @@ header h2 {
 .attendance-row {
   display: flex;
   align-items: center;
-  padding: 18px 24px;
+  padding: 14px 20px;
   border-bottom: 1px solid var(--border);
   cursor: pointer;
   -webkit-touch-callout: none;
-  -webkit-user-select: none;
   user-select: none;
   -webkit-tap-highlight-color: transparent;
 }
@@ -164,9 +220,9 @@ header h2 {
 .attendance-row.absent { background-color: var(--absent-bg); }
 
 .short-id-trigger {
-  font-size: 2.2rem;
+  font-size: 2rem;
   font-weight: 900;
-  min-width: 80px;
+  min-width: 70px;
   font-variant-numeric: tabular-nums;
 }
 
@@ -176,9 +232,7 @@ header h2 {
 /* --- Top-Bar Fixed Peek Panel --- */
 .student-peek-panel {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 0; left: 0; right: 0;
   height: 84px;
   background: #1e293b;
   color: white;
@@ -188,22 +242,22 @@ header h2 {
   justify-content: center;
   z-index: 11000;
   border-bottom: 4px solid var(--primary);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
 }
 
-.peek-name { font-size: 1.3rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
-.peek-roll { font-size: 0.9rem; opacity: 0.7; margin-top: 4px; font-family: monospace; }
+.peek-name { font-size: 1.2rem; font-weight: 800; text-transform: uppercase; }
+.peek-roll { font-size: 0.85rem; opacity: 0.7; margin-top: 2px; font-family: monospace; }
 
 /* --- Real-Time Status Counters --- */
 .stats-counter-ribbon {
   display: flex;
   justify-content: space-around;
-  padding: 14px;
+  padding: 12px;
   background: #f1f5f9;
   border-radius: 10px;
-  margin-bottom: 16px;
+  margin-bottom: 14px;
   font-weight: 700;
-  font-size: 0.95rem;
+  font-size: 0.85rem;
 }
 
 .stat-p { color: var(--present-text); }
@@ -211,18 +265,18 @@ header h2 {
 
 /* --- Appended System Action Blocks --- */
 .action-box-wrapper {
-  margin-top: 24px;
-  padding-top: 16px;
+  margin-top: 20px;
+  padding-top: 14px;
   border-top: 2px dashed var(--border);
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .btn-large-action {
   width: 100%;
-  min-height: 52px;
-  font-size: 1rem;
+  min-height: 48px;
+  font-size: 0.95rem;
   font-weight: 700;
   border-radius: 10px;
   cursor: pointer;
@@ -230,11 +284,11 @@ header h2 {
 
 .roster-row {
   display: grid;
-  grid-template-columns: 60px 110px 1fr 70px;
+  grid-template-columns: 50px 110px 1fr 60px;
   align-items: center;
-  padding: 12px 6px;
+  padding: 10px 4px;
   border-bottom: 1px solid var(--border);
-  font-size: 0.85rem;
+  font-size: 0.8rem;
 }
 
 /* --- Sheet Overlay Modals --- */
@@ -244,7 +298,7 @@ header h2 {
   background: rgba(15, 23, 42, 0.6);
   z-index: 20000;
   display: flex;
-  align-items: flex-end; /* Bottom sheet styling on mobile mobile devices */
+  align-items: flex-end;
 }
 
 .modal-sheet {
@@ -254,28 +308,16 @@ header h2 {
   margin: 0 auto;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
-  padding: 20px;
-  max-height: 85vh;
+  padding: 16px;
+  max-height: 80vh;
   display: flex;
   flex-direction: column;
-  box-shadow: 0 -8px 32px rgba(0,0,0,0.15);
 }
 
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 16px;
-}
-.modal-header h3 { margin:0; font-size:1.2rem; font-weight:800; }
-.modal-body { overflow-y: auto; padding-bottom: 24px; }
-
-.modal-body h4 { margin: 0 0 8px 0; font-size: 0.9rem; color: var(--secondary); text-transform: uppercase;}
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.modal-header h3 { margin:0; font-size:1.1rem; font-weight:800; }
+.modal-body { overflow-y: auto; padding-bottom: 20px; }
+.modal-body h4 { margin: 0 0 6px 0; font-size: 0.8rem; color: var(--secondary); text-transform: uppercase;}
 .modal-body input[type="text"], .modal-body textarea {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  font-size: 0.9rem;
-  font-family: inherit;
+  width: 100%; padding: 8px; border: 1px solid var(--border); border-radius: 6px; font-size: 0.85rem; font-family: inherit;
 }
