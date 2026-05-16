@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-select=no">
   <title>Attendance Tracker</title>
   <link rel="stylesheet" href="css/style.css">
+  <meta name="theme-color" content="#047857">
 </head>
 <body>
 
@@ -19,7 +20,6 @@
         <button class="btn btn-secondary" onclick="ui.closeRosterModal()" style="min-height:36px; padding:4px 12px;">X</button>
       </div>
       <div class="modal-body">
-        <!-- Mass Import Section -->
         <div class="import-block">
           <h4>Mass Import (CSV File or Raw Text)</h4>
           <input type="file" id="csvFileInput" accept=".csv" onchange="actions.handleCSVUpload(event)" style="margin-bottom: 10px; font-size:0.85rem;" />
@@ -27,7 +27,6 @@
           <button class="btn btn-primary" onclick="actions.processRawTextImport()" style="min-height:38px; margin-top:8px; font-size:0.85rem;">Process Text Import</button>
         </div>
         <hr style="border: 0; border-top: 1px solid var(--border); margin: 16px 0;" />
-        <!-- Individual Addition Section -->
         <div class="single-add-block">
           <h4>Add Individual Student</h4>
           <input type="text" id="newStudentId" placeholder="Full Roll Number (e.g. 2026CHE004)" style="margin-bottom:8px;" />
@@ -40,7 +39,11 @@
 
   <div class="app-container">
     <header>
-      <h2 id="appTitle">Semesters</h2>
+      <div style="display: flex; justify-content: space-between; align-items: center;">
+        <h2 id="appTitle">Semesters</h2>
+        <!-- Contextual Sort Toggle Controls Slot -->
+        <div id="sortingToggleContainer"></div>
+      </div>
     </header>
 
     <!-- Contextual Actions Target -->
@@ -58,28 +61,39 @@
 
     <!-- View 3: Lecture List & Student Roster Management -->
     <div id="lectureView" class="view-panel" style="display: none;">
+      
+      <!-- High-Level Subject Analytics Card Panel -->
+      <div id="subjectAnalyticsPanel"></div>
+
       <div class="tab-container">
         <button id="tabLectures" class="tab-btn active" onclick="ui.switchSubView('lectures')">Lectures</button>
-        <button id="tabStudents" class="tab-btn" onclick="ui.switchSubView('students')">Registered Students</button>
+        <button id="tabStudents" class="tab-btn" onclick="ui.switchSubView('students')">Registered Roster</button>
       </div>
       
       <div id="lectureListView" class="list-wrapper"></div>
       <div id="studentRosterView" class="list-wrapper" style="display: none;"></div>
       
-      <!-- Subject-wide Export Action Box -->
       <div id="subjectExportWrapper"></div>
     </div>
 
     <!-- View 4: Daily Attendance Entry Grid -->
     <div id="attendanceView" class="view-panel" style="display: none;">
-      <!-- Dynamic live counter box -->
+      
+      <!-- New Bulk Control Config Selection Strip -->
+      <div class="bulk-state-strip">
+        <span>Session Initialization Default:</span>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn btn-secondary state-opt" style="min-height:36px; padding:2px 10px; font-size:0.8rem;" onclick="actions.bulkMarkAll('present')">All Present</button>
+          <button class="btn btn-secondary state-opt" style="min-height:36px; padding:2px 10px; font-size:0.8rem; color:#ef4444;" onclick="actions.bulkMarkAll('absent')">All Absent (Bunk)</button>
+        </div>
+      </div>
+
       <div id="liveAttendanceStats" class="stats-counter-ribbon"></div>
       
       <div class="attendance-list-container">
         <div id="attendanceList"></div>
       </div>
       
-      <!-- Day Export Action Box -->
       <div id="lectureExportWrapper"></div>
     </div>
   </div>
