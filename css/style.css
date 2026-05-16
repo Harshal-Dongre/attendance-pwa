@@ -1,77 +1,86 @@
 :root {
-  --primary: #047857;     /* Academic emerald */
+  --primary: #047857;     /* Academic Emerald Green */
+  --primary-hover: #065f46;
   --secondary: #64748b;
-  --bg-app: #f1f5f9;
+  --bg-app: #f8fafc;
   --surface: #ffffff;
   --text: #0f172a;
   --border: #e2e8f0;
   
-  /* Attendance State Colors */
+  /* Attendance States */
   --present-bg: #f0fdf4;
-  --present-border: #bbf7d0;
   --present-text: #16a34a;
   --absent-bg: #fef2f2;
-  --absent-border: #fecaca;
   --absent-text: #dc2626;
 }
 
+* { box-sizing: border-box; }
+
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   margin: 0;
   padding: 0;
   background-color: var(--bg-app);
   color: var(--text);
+  overflow-x: hidden;
 }
 
 .app-container {
-  max-width: 800px;
+  max-width: 650px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 16px 16px 40px 16px;
   min-height: 100vh;
   background: var(--surface);
+  display: flex;
+  flex-direction: column;
 }
 
 header {
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 16px;
-  margin-bottom: 20px;
-  margin-top: 10px;
+  border-bottom: 2px solid var(--bg-app);
+  padding-bottom: 12px;
+  margin-bottom: 16px;
 }
 
-header h2 { font-size: 1.4rem; font-weight: 800; margin: 0; color: var(--primary); }
+header h2 {
+  font-size: 1.4rem;
+  font-weight: 800;
+  margin: 0;
+  color: var(--text);
+}
 
-/* Navigation Tabs */
-.tab-container {
+/* --- Navigation Button Containers --- */
+.nav-bar {
   display: flex;
-  background: #f1f5f9;
-  padding: 4px;
-  border-radius: 8px;
-  margin-bottom: 20px;
+  gap: 12px;
+  margin-bottom: 24px;
+  width: 100%;
 }
 
-.tab-btn {
+.nav-bar .btn {
   flex: 1;
-  padding: 10px;
-  background: transparent;
-  border: none;
-  border-radius: 6px;
+  min-height: 50px;
+  font-size: 0.95rem;
   font-weight: 600;
-  color: var(--secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
   cursor: pointer;
-  transition: all 0.2s;
+  white-space: nowrap;
 }
 
-.tab-btn.active {
-  background: var(--surface);
-  color: var(--primary);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-}
+.btn-primary { background: var(--primary); color: white; border: none; }
+.btn-primary:active { background: var(--primary-hover); }
+.btn-secondary { background: var(--surface); border: 1.5px solid var(--border); color: var(--secondary); }
+.btn-secondary:active { background: var(--bg-app); }
+.btn-danger { background: #fee2e2; color: #ef4444; border: 1px solid #fca5a5; font-size: 0.8rem; font-weight:700; border-radius:6px; cursor:pointer;}
 
-/* Grid & Cards */
+/* --- Grid & Card Lists --- */
 .grid-container {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  display: flex;
+  flex-direction: column;
   gap: 16px;
+  margin-bottom: 24px;
 }
 
 .card {
@@ -79,28 +88,72 @@ header h2 { font-size: 1.4rem; font-weight: 800; margin: 0; color: var(--primary
   border-radius: 12px;
   padding: 20px;
   background: var(--surface);
-  transition: transform 0.1s;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02);
 }
 
-.card h3 { margin: 0 0 8px 0; font-size: 1.1rem; }
-.card p { margin: 0 0 15px 0; color: var(--secondary); font-size: 0.85rem; }
+.card h3 { margin: 0 0 6px 0; font-size: 1.2rem; font-weight: 700; }
+.card p { margin: 0 0 16px 0; color: var(--secondary); font-size: 0.9rem; }
 
-/* The Attendance List (Mobile Optimized) */
+/* --- Tab Control Layout --- */
+.tab-container {
+  display: flex;
+  background: #f1f5f9;
+  padding: 4px;
+  border-radius: 10px;
+  margin-bottom: 24px;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 12px;
+  background: transparent;
+  border: none;
+  border-radius: 8px;
+  font-weight: 700;
+  color: var(--secondary);
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.tab-btn.active {
+  background: var(--surface);
+  color: var(--primary);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* --- Lecture Row Entries --- */
+.list-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.lecture-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 18px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: var(--surface);
+}
+
+/* --- Attendance Grid Row Layout --- */
 .attendance-list-container {
-  max-height: 70vh;
+  max-height: 55vh;
   overflow-y: auto;
   border: 1px solid var(--border);
   border-radius: 12px;
+  -webkit-overflow-scrolling: touch;
 }
 
 .attendance-row {
   display: flex;
   align-items: center;
-  padding: 16px 24px;
+  padding: 18px 24px;
   border-bottom: 1px solid var(--border);
   cursor: pointer;
-  position: relative;
-  /* Disable system selection menus */
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   user-select: none;
@@ -111,67 +164,118 @@ header h2 { font-size: 1.4rem; font-weight: 800; margin: 0; color: var(--primary
 .attendance-row.absent { background-color: var(--absent-bg); }
 
 .short-id-trigger {
-  font-size: 2rem;
+  font-size: 2.2rem;
   font-weight: 900;
+  min-width: 80px;
   font-variant-numeric: tabular-nums;
-  min-width: 60px;
 }
 
 .attendance-row.present .short-id-trigger { color: var(--present-text); }
 .attendance-row.absent .short-id-trigger { color: var(--absent-text); }
 
-/* Top-Bar Peek Panel (Solves Finger Blocking) */
+/* --- Top-Bar Fixed Peek Panel --- */
 .student-peek-panel {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
-  height: 80px;
+  height: 84px;
   background: #1e293b;
   color: white;
   display: none;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  z-index: 10000;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+  z-index: 11000;
   border-bottom: 4px solid var(--primary);
-  animation: slideIn 0.2s ease-out;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
 }
 
-.peek-name { font-size: 1.3rem; font-weight: 800; text-transform: uppercase; }
-.peek-roll { font-size: 0.9rem; opacity: 0.7; font-family: monospace; }
+.peek-name { font-size: 1.3rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px; }
+.peek-roll { font-size: 0.9rem; opacity: 0.7; margin-top: 4px; font-family: monospace; }
 
-@keyframes slideIn {
-  from { transform: translateY(-100%); }
-  to { transform: translateY(0); }
-}
-
-/* Global Buttons */
-.btn {
-  padding: 10px 18px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  border-radius: 8px;
-  cursor: pointer;
-  border: 1px solid var(--border);
-}
-
-.btn-action { background: var(--primary); color: white; border: none; }
-.btn-export { background: #065f46; color: white; border: none; margin-top: 15px; width: 100%; }
-
-.lecture-item {
+/* --- Real-Time Status Counters --- */
+.stats-counter-ribbon {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px;
-  border-bottom: 1px solid var(--border);
+  justify-content: space-around;
+  padding: 14px;
+  background: #f1f5f9;
+  border-radius: 10px;
+  margin-bottom: 16px;
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.stat-p { color: var(--present-text); }
+.stat-a { color: var(--absent-text); }
+
+/* --- Appended System Action Blocks --- */
+.action-box-wrapper {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 2px dashed var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.btn-large-action {
+  width: 100%;
+  min-height: 52px;
+  font-size: 1rem;
+  font-weight: 700;
+  border-radius: 10px;
+  cursor: pointer;
 }
 
 .roster-row {
   display: grid;
-  grid-template-columns: 60px 1fr 1fr;
-  padding: 12px;
+  grid-template-columns: 60px 110px 1fr 70px;
+  align-items: center;
+  padding: 12px 6px;
   border-bottom: 1px solid var(--border);
+  font-size: 0.85rem;
+}
+
+/* --- Sheet Overlay Modals --- */
+.modal-overlay {
+  position: fixed;
+  top:0; bottom:0; left:0; right:0;
+  background: rgba(15, 23, 42, 0.6);
+  z-index: 20000;
+  display: flex;
+  align-items: flex-end; /* Bottom sheet styling on mobile mobile devices */
+}
+
+.modal-sheet {
+  background: var(--surface);
+  width: 100%;
+  max-width: 650px;
+  margin: 0 auto;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+  padding: 20px;
+  max-height: 85vh;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 -8px 32px rgba(0,0,0,0.15);
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+.modal-header h3 { margin:0; font-size:1.2rem; font-weight:800; }
+.modal-body { overflow-y: auto; padding-bottom: 24px; }
+
+.modal-body h4 { margin: 0 0 8px 0; font-size: 0.9rem; color: var(--secondary); text-transform: uppercase;}
+.modal-body input[type="text"], .modal-body textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid var(--border);
+  border-radius: 8px;
   font-size: 0.9rem;
+  font-family: inherit;
 }
