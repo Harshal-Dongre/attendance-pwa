@@ -2,65 +2,88 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Attendance App</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-select=no">
+  <title>Attendance Tracker</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
+
+  <!-- Fixed Name Reveal Bar (Stops finger block) -->
+  <div id="topPeekPanel" class="student-peek-panel"></div>
+
+  <!-- Roster Management Sheet Modal -->
+  <div id="rosterModal" class="modal-overlay" style="display: none;">
+    <div class="modal-sheet">
+      <div class="modal-header">
+        <h3 id="modalRosterTitle">Manage Roster</h3>
+        <button class="btn btn-secondary" onclick="ui.closeRosterModal()" style="min-height:36px; padding:4px 12px;">X</button>
+      </div>
+      <div class="modal-body">
+        <!-- Mass Import Section -->
+        <div class="import-block">
+          <h4>Mass Import (CSV File or Raw Text)</h4>
+          <input type="file" id="csvFileInput" accept=".csv" onchange="actions.handleCSVUpload(event)" style="margin-bottom: 10px; font-size:0.85rem;" />
+          <textarea id="rawRosterInput" placeholder="Or paste rows here:&#10;2026CHE001, Amit Sharma&#10;2026CHE002, Priya Patel" rows="5"></textarea>
+          <button class="btn btn-primary" onclick="actions.processRawTextImport()" style="min-height:38px; margin-top:8px; font-size:0.85rem;">Process Text Import</button>
+        </div>
+        <hr style="border: 0; border-top: 1px solid var(--border); margin: 16px 0;" />
+        <!-- Individual Addition Section -->
+        <div class="single-add-block">
+          <h4>Add Individual Student</h4>
+          <input type="text" id="newStudentId" placeholder="Full Roll Number (e.g. 2026CHE004)" style="margin-bottom:8px;" />
+          <input type="text" id="newStudentName" placeholder="Full Display Name" style="margin-bottom:12px;" />
+          <button class="btn btn-primary" onclick="actions.addIndividualStudent()" style="min-height:38px; font-size:0.85rem;">Append to Roster</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <div class="app-container">
     <header>
       <h2 id="appTitle">Semesters</h2>
     </header>
 
-    <div id="semesterView" class="view">
+    <!-- Contextual Actions Target -->
+    <div id="dynamicActionsBar" class="nav-bar"></div>
+
+    <!-- View 1: Semesters Dashboard -->
+    <div id="semesterView" class="view-panel">
       <div id="semesterList" class="grid-container"></div>
-      <button class="btn btn-primary" onclick="actions.addSemester()">+ Add Semester</button>
     </div>
 
-    <div id="detailView" class="view" style="display:none;">
-      <div class="nav-bar">
-        <button class="btn btn-secondary" onclick="ui.showSemesterView()">← Back to Semesters</button>
-        <div class="tab-container" id="subjectTabs" style="display: none;">
-          <button class="tab-btn active" id="tabLectures" onclick="ui.switchSubView('lectures')">Lectures</button>
-          <button class="tab-btn" id="tabStudents" onclick="ui.switchSubView('students')">Registered Students</button>
-        </div>
-      </div>
+    <!-- View 2: Subjects Dashboard -->
+    <div id="subjectView" class="view-panel" style="display: none;">
+      <div id="subjectList" class="grid-container"></div>
+    </div>
 
-      <div id="subjectListView" class="sub-view">
-        <div id="subjectList" class="grid-container"></div>
-        <button class="btn btn-primary" onclick="actions.addSubject()">+ Add Subject</button>
+    <!-- View 3: Lecture List & Student Roster Management -->
+    <div id="lectureView" class="view-panel" style="display: none;">
+      <div class="tab-container">
+        <button id="tabLectures" class="tab-btn active" onclick="ui.switchSubView('lectures')">Lectures</button>
+        <button id="tabStudents" class="tab-btn" onclick="ui.switchSubView('students')">Registered Students</button>
       </div>
+      
+      <div id="lectureListView" class="list-wrapper"></div>
+      <div id="studentRosterView" class="list-wrapper" style="display: none;"></div>
+      
+      <!-- Subject-wide Export Action Box -->
+      <div id="subjectExportWrapper"></div>
+    </div>
 
-      <div id="lectureListView" class="sub-view" style="display:none;">
-        <div id="lectureList"></div>
-        <div class="action-bar">
-          <button class="btn btn-primary" onclick="actions.addLecture()">+ Take Attendance (New Lecture)</button>
-          <button class="btn btn-export" id="exportSubjectBtn">Export Subject CSV</button>
-        </div>
+    <!-- View 4: Daily Attendance Entry Grid -->
+    <div id="attendanceView" class="view-panel" style="display: none;">
+      <!-- Dynamic live counter box -->
+      <div id="liveAttendanceStats" class="stats-counter-ribbon"></div>
+      
+      <div class="attendance-list-container">
+        <div id="attendanceList"></div>
       </div>
-
-      <div id="attendanceView" class="sub-view" style="display:none;">
-        <div class="attendance-list-container">
-          <div id="attendanceList"></div>
-        </div>
-        <div class="action-bar">
-          <button class="btn btn-export" id="exportLectureBtn">Export Lecture CSV</button>
-        </div>
-      </div>
-
-      <div id="studentRosterView" class="sub-view" style="display:none;">
-        <div class="action-bar">
-          <button class="btn btn-secondary" onclick="actions.uploadStudentCSV()">Upload Roster CSV</button>
-          <button class="btn btn-secondary" onclick="actions.addStudentManual()">Add Student Manually</button>
-        </div>
-        <div id="studentRosterList" class="roster-list"></div>
-      </div>
+      
+      <!-- Day Export Action Box -->
+      <div id="lectureExportWrapper"></div>
     </div>
   </div>
 
-  <script src="js/db.js"></script>
-  <script src="js/ui.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
