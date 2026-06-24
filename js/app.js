@@ -49,6 +49,10 @@ const ui = {
     document.getElementById("subjectAnalyticsPanel").innerHTML = "";
     document.getElementById("subjectExportWrapper").innerHTML = "";
     document.getElementById("lectureExportWrapper").innerHTML = "";
+    
+    // Hide systemic global backup modules on deeper sub-views
+    const globalBackupElement = document.getElementById("globalSystemBackupControlBox");
+    if (globalBackupElement) globalBackupElement.style.display = "none";
   },
 
   showSemesterView() {
@@ -71,6 +75,9 @@ const ui = {
     actionsBar.innerHTML = `<button class="btn btn-primary" onclick="actions.addSemester()">+ Add Semester</button>`;
 
     document.getElementById("semesterView").style.display = "block";
+    
+    // Render and exhibit the system-wide Backup controls panel at the home base
+    this.renderGlobalBackupInterface();
     this.renderSemesters();
   },
 
@@ -158,7 +165,7 @@ const ui = {
     }
   },
 
-  // --- Upgraded Analytical Rendering Subsystem (With Click-to-Expand & 5% Interval Stepper Slider) ---
+  // --- Analytical Rendering Subsystem (With Minimalist Range Slider Control Module) ---
   renderSubjectAnalytics(sub) {
     const target = document.getElementById("subjectAnalyticsPanel");
     if (!sub.lectures || sub.lectures.length === 0 || sub.students.length === 0) {
@@ -204,9 +211,7 @@ const ui = {
     if (flaggedStudents.length === 0) {
       rosterRowsHtml = `<div style="padding: 16px 10px; font-size: 0.8rem; color: var(--secondary); text-align: center;">All students clear of the ${currentLimit}% baseline! 🎉</div>`;
     } else {
-      // Sort lowest attendance first so problem cases track right to the top
       flaggedStudents.sort((a, b) => a.pct - b.pct);
-      
       flaggedStudents.forEach(fs => {
         rosterRowsHtml += `
           <div style="display: flex; align-items: center; justify-content: space-between; padding: 10px 4px; border-bottom: 1px solid var(--border); font-size: 0.8rem;">
@@ -226,7 +231,7 @@ const ui = {
       });
     }
 
-    // Render layout block containing standard cards alongside the integrated interval selector wheel
+    // Render snapshot panel containing statistics cards alongside integrated threshold slider
     target.innerHTML = `
       <div class="analytics-box" style="padding-bottom: ${flaggedStudents.length > 0 ? '10px' : '14px'};">
         <h4>Subject Metrics Snapshot</h4>
@@ -244,19 +249,14 @@ const ui = {
           </div>
         </div>
 
-        <!-- Interactive Drawer Content Slot -->
         <div id="shortAttendanceDrawer" style="display: none; margin-top: 14px; padding-top: 6px; border-top: 1px dashed var(--border); max-height: 280px; overflow-y: auto; -webkit-overflow-scrolling: touch;">
           
-          <!-- Smooth Horizontal 5% Step Interval Selection Slider Module -->
-          <div style="background: var(--surface); padding: 8px; border-radius: 6px; border: 1px solid var(--border); margin-bottom: 12px;">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+          <div style="background: var(--surface); padding: 8px 8px 12px 8px; border-radius: 6px; border: 1px solid var(--border); margin-bottom: 12px;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
               <span style="font-size: 0.7rem; font-weight: 800; color: var(--secondary); text-transform: uppercase; letter-spacing: 0.5px;">Adjust Target Baseline:</span>
               <strong style="font-size: 0.85rem; color: var(--primary); font-family: monospace; background: #e0f2fe; padding: 2px 6px; border-radius: 4px;" id="sliderDisplayReadout">${currentLimit}%</strong>
             </div>
-            <input type="range" min="50" max="95" step="5" value="${currentLimit}" style="width: 100%; height: 6px; cursor: pointer; accent-color: var(--primary);" oninput="actions.handleThresholdSliderAdjustment(this.value)">
-            <div style="display: flex; justify-content: space-between; font-size: 0.6rem; color: var(--secondary); font-weight: 700; padding: 0 2px; margin-top: 2px;">
-              <span>50%</span><span>60%</span><span>70%</span><span style="color: var(--primary);">75%</span><span>80%</span><span>90%</span><span>95%</span>
-            </div>
+            <input type="range" min="50" max="95" step="5" value="${currentLimit}" style="width: 100%; height: 6px; cursor: pointer; accent-color: var(--primary); margin: 0;" oninput="actions.handleThresholdSliderAdjustment(this.value)">
           </div>
 
           <div style="font-size: 0.7rem; font-weight: 800; color: var(--secondary); text-transform: uppercase; margin-bottom: 4px; letter-spacing: 0.5px;">Flagged Student List</div>
@@ -266,7 +266,39 @@ const ui = {
     `;
   },
 
-  // --- Pipeline UI Content Generation passes ---
+  // --- Dynamic System Backup Controls Renderer Engine ---
+  renderGlobalBackupInterface() {
+    let container = document.getElementById("globalSystemBackupControlBox");
+    if (!container) {
+      // Intelligently append the global controls block wrapper to index nodes if missing
+      container = document.createElement("div");
+      container.id = "globalSystemBackupControlBox";
+      document.getElementById("semesterView").appendChild(container);
+    }
+    
+    container.style.display = "block";
+    container.style.marginTop = "30px";
+    
+    container.innerHTML = `
+      <div class="card" style="border: 1px dashed var(--border); background: var(--surface); padding: 16px;">
+        <h4 style="margin-top:0; margin-bottom:6px; color:var(--text); font-size:0.9rem;">System Data Backup & Cloud Synchronization</h4>
+        <p style="font-size:0.75rem; color:var(--secondary); margin-bottom:14px; line-height:1.4;">
+          Export your complete database configuration schema as a standalone backup file. You can save this file into your locally synced Google Drive mapping or machine folder, then load it back anywhere to preserve roster registers.
+        </p>
+        <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px;">
+          <button class="btn btn-secondary" style="font-size:0.75rem; min-height:36px; padding:4px;" onclick="actions.exportSystemBackupJSON()">
+            📥 Save Backup File
+          </button>
+          <button class="btn btn-secondary" style="font-size:0.75rem; min-height:36px; padding:4px; position:relative;" onclick="document.getElementById('systemBackupFileInputField').click()">
+            📤 Restore Backup File
+            <input type="file" id="systemBackupFileInputField" accept=".json" style="display:none;" onchange="actions.importSystemBackupJSON(event)">
+          </button>
+        </div>
+      </div>
+    `;
+  },
+
+  // --- Content Pipeline Pass-through Arrays ---
   renderSemesters() {
     const list = document.getElementById("semesterList");
     list.innerHTML = db.semesters.length === 0 ? "<p class='card'>No semesters defined.</p>" : "";
@@ -313,7 +345,7 @@ const ui = {
           <h3>${item.sub.name}</h3>
           <button class="btn-danger" style="padding:4px 8px;" onclick="actions.deleteSubject(${item.originalIdx})">Delete</button>
         </div>
-        <p>${item.sub.students?.length || 0} Registered Roster | ${item.sub.lectures?.length || 0} Classes Run</p>
+        <p>${item.sub.students?.length || 0} Registered Students | ${item.sub.lectures?.length || 0} Classes Run</p>
         <button class="btn btn-secondary" style="width: 100%; min-height: 40px;" onclick="ui.showLectureView(${item.originalIdx})">Manage Course</button>
       `;
       list.appendChild(card);
@@ -461,6 +493,51 @@ const actions = {
     configs.sortSubjectsAlphabetical = !configs.sortSubjectsAlphabetical;
     saveConfigs();
     ui.showSubjectView(ui.currentSemIdx);
+  },
+
+  // --- Core System JSON Schema Import / Export Drivers ---
+  exportSystemBackupJSON() {
+    const payloadString = localStorage.getItem("attendance_db");
+    if (!payloadString || db.semesters.length === 0) {
+      alert("Your database is completely empty. Add data records before writing backup files.");
+      return;
+    }
+    const blob = new Blob([payloadString], { type: 'application/json;charset=utf-8;' });
+    const anchor = document.createElement("a");
+    anchor.href = URL.createObjectURL(blob);
+    anchor.setAttribute("download", `attendance_system_backup.json`);
+    document.body.appendChild(anchor);
+    anchor.click();
+    document.body.removeChild(anchor);
+  },
+
+  importSystemBackupJSON(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    if (!confirm("CRITICAL ASSIGNMENT WARNING:\nRestoring from this file will completely overwrite all local student registers, semesters, and existing metrics currently saved in this browser window.\n\nProceed with full data restore?")) {
+      event.target.value = "";
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (evt) => {
+      try {
+        const parsedObject = JSON.parse(evt.target.result);
+        if (parsedObject && Array.isArray(parsedObject.semesters)) {
+          db = parsedObject;
+          saveDatabase();
+          ui.showSemesterView();
+          alert("Database configuration blueprint loaded and restored successfully! 🎉");
+        } else {
+          alert("Structural Malformation Error: The uploaded file does not conform to a valid attendance configuration schema layout.");
+        }
+      } catch (err) {
+        alert("Parsing Failure: Unable to correctly decode file contents. Ensure selected target is a generic JSON log.");
+      }
+      event.target.value = "";
+    };
+    reader.readAsText(file);
   },
 
   // --- Real-Time Drag Slider Calculation Callback Engine ---
