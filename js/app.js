@@ -241,7 +241,7 @@ const ui = {
             <div>${generalAttendanceAvg}%</div>
           </div>
           <div class="analytic-metric" id="shortAttendanceTriggerCard" style="cursor: pointer; position: relative; border-color: ${flaggedStudents.length > 0 ? '#fca5a5' : 'var(--border)'}; background: ${flaggedStudents.length > 0 ? '#fff5f5' : 'var(--surface)'};" onclick="actions.toggleShortAttendanceDrawer()">
-            <div>Short Attendance (<span id="liveMetricHeaderTitleThreshold">${currentLimit}%</span>)</div>
+            <div>Attendance Shortfall(<span id="liveMetricHeaderTitleThreshold">${currentLimit}%</span>)</div>
             <div style="color: ${flaggedStudents.length > 0 ? '#ef4444' : 'var(--primary)'}; display: flex; align-items: center; justify-content: space-between;">
               <span>${flaggedStudents.length} Students</span>
               <span id="drawerChevronIndicator" style="font-size: 0.75rem; transform: rotate(0deg); transition: transform 0.2s ease; color: var(--secondary); margin-left: 4px;">▼</span>
